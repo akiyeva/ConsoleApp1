@@ -15,6 +15,18 @@ namespace ConsoleApp1
         {
         }
 
+        public static void UserRegistration()
+        {
+            Console.WriteLine("=== Registration ===");
+
+            //  var userService = new UserService();
+
+            var user = CreateUser();
+            userService.AddUser(user);
+
+            Console.WriteLine($"User {user.Fullname} created and added to the database.");
+            Console.WriteLine();
+        }
         public static void UserLogin()
         {
             Console.WriteLine("=== Log In ===");
