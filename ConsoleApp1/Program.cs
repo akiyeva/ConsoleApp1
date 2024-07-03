@@ -1,14 +1,57 @@
 ﻿using ConsoleApp1.Exceptions;
 using ConsoleApp1.Models;
+using ConsoleProject.Services;
 
 namespace ConsoleApp1
 {
     public class Program
     {
+        private static User currentUser = null;
+        private static UserService userService = new UserService();
+        private static MedicineService medicineService = new MedicineService();
+        private static CategoryService categoryService = new CategoryService();
+
         static void Main(string[] args)
         {
         }
 
+        public static void UserLogin()
+        {
+            Console.WriteLine("=== Log In ===");
+
+            bool isLoggedIn = false;
+
+            while (!isLoggedIn)
+            {
+                Console.WriteLine("Enter email:");
+                string email = Console.ReadLine();
+
+                Console.WriteLine("Enter password:");
+                string password = Console.ReadLine();
+
+                try
+                {
+                    isLoggedIn = userService.Login(email, password);
+                    foreach (var user in DB.users)
+                    {
+                        if (user.Email == email && user.Password == password)
+                        {
+                            currentUser = user;
+                            break;
+                        }
+                    }
+                    if (currentUser != null)
+                    {
+                        Console.WriteLine($"Welcome, {currentUser.Fullname}");
+                    }
+                }
+                catch (NotFoundException)
+                {
+                    Console.WriteLine("User not found or incorrect credentials.");
+
+                }
+            }
+        }
 
         static User CreateUser()
         {
