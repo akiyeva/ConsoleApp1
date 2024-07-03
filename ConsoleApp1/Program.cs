@@ -14,7 +14,27 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
         }
+        static void ShowUserMenu()
+        {
+            Console.WriteLine("[1] User registration (Add user to database)");
+            Console.WriteLine("[2] User login");
+            Console.WriteLine("[0] Exit program");
+            Console.WriteLine();
 
+            int command = int.Parse(Console.ReadLine());
+
+            switch (command)
+            {
+                case 1:
+                    UserRegistration();
+                    break;
+                case 2:
+                    UserLogin();
+                    break;
+                case 0:
+                    return;
+            }
+        }
         public static void UserRegistration()
         {
             Console.WriteLine("=== Registration ===");
