@@ -13,6 +13,160 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
+            while (currentUser == null)
+            {
+                ShowUserMenu();
+            }
+
+            while (currentUser != null)
+            {
+                ShowMainMenu();
+            }
+        }
+
+        static void ShowMainMenu()
+        {
+            Console.WriteLine("=== Main menu ===");
+            Console.WriteLine("[1] User menu");
+            Console.WriteLine("[2] Medicine menu");
+            Console.WriteLine("[3] Category menu");
+            Console.WriteLine("[4] Log out");
+            Console.WriteLine("[0] Exit program");
+            Console.WriteLine();
+
+            int command = int.Parse(Console.ReadLine());
+
+            switch (command)
+            {
+                case 1:
+                    ShowLoggedUserMenu();
+                    break;
+                case 2:
+                    ShowMedicineMenu();
+                    break;
+                case 3:
+                    ShowCategoryMenu();
+                    break;
+                case 4:
+                    currentUser = null;
+                    ShowUserMenu();
+                    break;
+                case 0:
+                    return;
+                default:
+                    Console.WriteLine("Invalid command.");
+                    break;
+            }
+        }
+        static void ShowCategoryMenu()
+        {
+
+            Console.WriteLine("[1] Create and add category to DB");
+            Console.WriteLine("[2] Go back to the main menu");
+            Console.WriteLine("[0] Exit program");
+            Console.WriteLine();
+
+            int command = int.Parse(Console.ReadLine());
+
+            switch (command)
+            {
+                case 1:
+                    Category category = CreateCategory();
+                    categoryService.AddCategory(category);
+                    Console.WriteLine($"{category} added to the database");
+                    break;
+                case 2:
+                    ShowMainMenu();
+                    break;
+                case 0:
+                    return;
+                default:
+                    Console.WriteLine("Invalid command.");
+                    break;
+            }
+        }
+
+        static void ShowMedicineMenu()
+        {
+            //  var medicineService = new MedicineService();
+
+            Console.WriteLine("=== Medicine menu ===");
+            Console.WriteLine("[1] Create and add medicine to DB");
+            Console.WriteLine("[2] Show all medicines");
+            Console.WriteLine("[3] Search medicine by ID");
+            Console.WriteLine("[4] Search medicine by Name");
+            Console.WriteLine("[5] Search medicines by Category ID");
+            Console.WriteLine("[6] Remove medicine");
+            Console.WriteLine("[7] Update medicine");
+            Console.WriteLine("[0] Exit");
+            Console.WriteLine();
+
+            int command = int.Parse(Console.ReadLine());
+
+            switch (command)
+            {
+                case 1:
+                    Medicine medicine = CreateMedicine();
+                    medicineService.AddMedicine(medicine);
+                    Console.WriteLine($"{medicine} added to the database.");
+                    break;
+                case 2:
+                    var medicines = medicineService.GetAllMedicines();
+                    foreach (var med in medicines)
+                    {
+                        Console.WriteLine(med);
+                    }
+                    break;
+                case 3:
+                    Console.WriteLine("Enter medicine ID:");
+                    int medicineId = int.Parse(Console.ReadLine());
+                    Console.WriteLine(medicineService.GetMedicineById(medicineId));
+                    break;
+                case 4:
+                    Console.WriteLine("Enter medicine name:");
+                    string medicineName = Console.ReadLine();
+                    Console.WriteLine(medicineService.GetMedicineByName(medicineName));
+                    break;
+                case 5:
+                    Console.WriteLine("Enter medicine category ID:");
+                    int medicineCategoryId = int.Parse(Console.ReadLine());
+                    Console.WriteLine(medicineService.GetMedicineByCategory(medicineCategoryId));
+                    break;
+                case 6:
+                    Console.WriteLine("Enter medicine ID:");
+                    int removedMedicineId = int.Parse(Console.ReadLine());
+                    medicineService.RemoveMedicine(removedMedicineId);
+                    break;
+                case 7:
+                    Console.WriteLine("Enter ID of medicine you what to update:");
+                    int updatedMedicineId = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter new medicine:");
+                    var newMedicine = CreateMedicine();
+                    medicineService.UpdateMedicine(updatedMedicineId, newMedicine);
+                    break;
+                default:
+                    Console.WriteLine("Invalid command.");
+                    break;
+            }
+        }
+
+        static void ShowLoggedUserMenu()
+        {
+            Console.WriteLine("[1] User registration (Add user to database)");
+            Console.WriteLine("[2] Go back to the main menu");
+            Console.WriteLine();
+
+            int command = int.Parse(Console.ReadLine());
+
+            switch (command)
+            {
+                case 1:
+                    UserRegistration();
+                    break;
+                case 2:
+                    ShowMainMenu();
+                    break;
+            }
         }
         static void ShowUserMenu()
         {
