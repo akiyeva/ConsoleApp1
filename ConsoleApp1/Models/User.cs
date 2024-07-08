@@ -72,7 +72,7 @@ namespace ConsoleApp1.Models
             }
 
            
-            if (!hasUpper && !hasLower && !hasDigit && password.Length < 8)
+            if (!hasUpper || !hasLower || !hasDigit || password.Length < 8)
                 throw new InvalidCredentialsException("Password should contain at least 8 characters, including upper and lower case letters, and at least one digit.");
 
             return true;
