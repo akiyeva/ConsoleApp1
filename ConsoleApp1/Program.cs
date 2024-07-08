@@ -2,6 +2,7 @@
 using ConsoleApp1.Helpers;
 using ConsoleApp1.Models;
 using ConsoleProject.Services;
+using System.Linq.Expressions;
 
 namespace ConsoleApp1
 {
@@ -514,64 +515,91 @@ namespace ConsoleApp1
         {
             TextColor.WriteLine("|Admin Registration|", ConsoleColor.Blue);
 
-            try
+            while (true)
             {
-                var admin = CreateUser(true);
-                userService.AddUser(admin);
+                try
+                {
+                    var admin = CreateUser(true);
+                    userService.AddUser(admin);
 
-                Console.WriteLine($"Admin {admin.Fullname} created.");
-                Console.WriteLine();
-            }
-            catch (Exception ex)
-            {
-                TextColor.WriteLine($"Error: {ex.Message}", ConsoleColor.Red);
+                    Console.WriteLine($"Admin {admin.Fullname} created.");
+                    Console.WriteLine();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    TextColor.WriteLine(ex.Message, ConsoleColor.Red);
+                }
             }
         }
         static User CreateUser(bool isAdmin = false)
         {
-            string name = null;
-            while (string.IsNullOrWhiteSpace(name))
-            {
-                Console.WriteLine("Enter fullname:");
-                name = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    TextColor.WriteLine("Fullname cannot be empty. Please enter a valid fullname.", ConsoleColor.Red);
-                }
-            }
 
+            string name = null;
             string email = null;
-            while (string.IsNullOrWhiteSpace(email))
+            string password = null;
+
+            try
             {
-                Console.WriteLine("Enter email:");
-                email = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(email))
+
+                while (true)
                 {
-                    Console.WriteLine("Email cannot be empty. Please enter a valid email.");
-                }
-                else
-                {
-                    foreach (var e in DB.users)
+                    Console.WriteLine("Enter fullname:");
+                    name = Console.ReadLine();
+
+                    try
                     {
-                        if (e.Email == email)
+                        User.CheckFullname(name);
+                        break;
+                    }
+                    catch (InvalidCredentialsException ex)
+                    {
+                        TextColor.WriteLine(ex.Message, ConsoleColor.Red);
+                    }
+                }
+
+                while (true)
+                {
+                    Console.WriteLine("Enter email:");
+                    email = Console.ReadLine();
+
+                    try
+                    {
+                        User.CheckEmail(email);
+
+                        if (DB.users.Any(e => e.Email == email))
                         {
                             Console.WriteLine("This email is already used by another user.");
                             email = null;
-                            break;
+                            continue;
                         }
+
+                        break;
+                    }
+                    catch (InvalidCredentialsException ex)
+                    {
+                        TextColor.WriteLine(ex.Message, ConsoleColor.Red);
+                    }
+                }
+
+                while (true)
+                {
+                    Console.WriteLine("Enter password:");
+                    password = Console.ReadLine();
+                    try
+                    {
+                        User.CheckPassword(password);
+                        break;
+                    }
+                    catch (InvalidCredentialsException ex)
+                    {
+                        TextColor.WriteLine(ex.Message, ConsoleColor.Red);
                     }
                 }
             }
-
-            string password = null;
-            while (string.IsNullOrWhiteSpace(password))
+            catch (Exception ex)
             {
-                Console.WriteLine("Enter password:");
-                password = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(password))
-                {
-                    Console.WriteLine("Password cannot be empty. Please enter a valid password.");
-                }
+                TextColor.WriteLine(ex.Message, ConsoleColor.Red);
             }
 
             return new User(name, email, password, isAdmin);
@@ -611,7 +639,6 @@ namespace ConsoleApp1
                     TextColor.WriteLine($"Error: {ex.Message}", ConsoleColor.Red);
                 }
             }
-
             return null;
         }
 
