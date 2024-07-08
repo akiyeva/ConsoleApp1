@@ -2,7 +2,9 @@
 using ConsoleApp1.Helpers;
 using ConsoleApp1.Models;
 using ConsoleProject.Services;
+using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Xml.Linq;
 
 namespace ConsoleApp1
 {
@@ -206,7 +208,7 @@ namespace ConsoleApp1
 
                         int medicineCategoryId = int.Parse(Console.ReadLine());
 
-                        var medicinesPart = categoryService.GetMedicinesByCategory(medicineCategoryId);
+                        var medicinesPart = categoryService.GetMedicinesByCategory(medicineCategoryId, currentUser);
                         foreach (var med in medicinesPart)
                         {
                             Console.WriteLine(med);
@@ -266,7 +268,7 @@ namespace ConsoleApp1
                         Console.WriteLine($"{category} added to the database");
                         break;
                     case 2:
-                        ShowUserMainMenu();
+                        ShowAdminMenu();
                         break;
                     case 0:
                         Environment.Exit(0);
@@ -354,7 +356,11 @@ namespace ConsoleApp1
                             Console.WriteLine(med);
                         }
                         int removedMedicineId = int.Parse(Console.ReadLine());
+
+                        var item = medicineService.GetMedicineById(removedMedicineId);
+
                         medicineService.RemoveMedicine(removedMedicineId);
+                       // categoryService.RemoveMedicine(removedMedicineId, item.Category);
 
                         break;
                     case 7:

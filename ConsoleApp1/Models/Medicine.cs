@@ -20,7 +20,7 @@
         }
         public override string ToString()
         {
-            return $"{Id}. {Name} ({Category.Name}), Price: {Price}| {CreatedTime}";
+            return $"{Id}. {Name} ({Category.Name}) {Price}$ | {CreatedTime}";
         }
     }
 }
