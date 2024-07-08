@@ -23,7 +23,7 @@ namespace ConsoleApp1.Models
             get => _email;
             set
             {
-                if (CheckPassword(value))
+                if (CheckEmail(value))
                     _email = value;
             }
         }
@@ -71,12 +71,12 @@ namespace ConsoleApp1.Models
                     hasDigit = true;
             }
 
-            bool isValid = hasUpper && hasLower && hasDigit && password.Length >= 8;
-
-            if (!isValid)
+           
+            if (!hasUpper && !hasLower && !hasDigit && password.Length < 8)
                 throw new InvalidCredentialsException("Password should contain at least 8 characters, including upper and lower case letters, and at least one digit.");
 
-            return isValid;
+            return true;
+            
         }
 
 
