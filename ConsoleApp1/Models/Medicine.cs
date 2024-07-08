@@ -2,7 +2,7 @@
 {
     public class Medicine : BaseEntity
     {
-        private static int _id;
+        private static int _id = 1;
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
@@ -12,7 +12,7 @@
         public DateTime CreatedTime { get; set; }
         public Medicine(string name, decimal price, Category category)
         {
-            Id = ++_id;
+            Id = _id++;
             Name = name;
             Price = price;
             Category = category;
@@ -20,7 +20,7 @@
         }
         public override string ToString()
         {
-            return $"{Id} {Name}: {CreatedTime}";
+            return $"{Id}. {Name} ({Category.Name}) | {CreatedTime}";
         }
     }
 }
