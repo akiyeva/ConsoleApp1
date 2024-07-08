@@ -545,27 +545,17 @@ namespace ConsoleApp1
                 while (true)
                 {
                     Console.WriteLine("Enter fullname:");
-                    name = Console.ReadLine();
-
-                    try
-                    {
-                        User.CheckFullname(name);
-                        break;
-                    }
-                    catch (InvalidCredentialsException ex)
-                    {
-                        TextColor.WriteLine(ex.Message, ConsoleColor.Red);
-                    }
+                    name = TakeInputName();
+                    break;
                 }
 
                 while (true)
                 {
                     Console.WriteLine("Enter email:");
-                    email = Console.ReadLine();
+                    email = TakeInputEmail();
 
                     try
                     {
-                        User.CheckEmail(email);
 
                         if (DB.users.Any(e => e.Email == email))
                         {
@@ -585,16 +575,7 @@ namespace ConsoleApp1
                 while (true)
                 {
                     Console.WriteLine("Enter password:");
-                    password = Console.ReadLine();
-                    try
-                    {
-                        User.CheckPassword(password);
-                        break;
-                    }
-                    catch (InvalidCredentialsException ex)
-                    {
-                        TextColor.WriteLine(ex.Message, ConsoleColor.Red);
-                    }
+                    password = TakeInputPassword();
                 }
             }
             catch (Exception ex)
@@ -735,5 +716,58 @@ namespace ConsoleApp1
 
             return null;
         }
+
+        static string TakeInputName()
+        {
+            while (true)
+            {
+                try
+                {
+                    string name = Console.ReadLine();
+                    if (User.CheckFullname(name))
+                        return name;
+
+                }
+                catch (InvalidCredentialsException ex)
+                {
+                    TextColor.WriteLine(ex.Message, ConsoleColor.Red);
+                }
+            }
+        }
+        static string TakeInputEmail()
+        {
+            while (true)
+            {
+                try
+                {
+                    string email = Console.ReadLine();
+                    if (User.CheckEmail(email))
+                        return email;
+
+                }
+                catch (InvalidCredentialsException ex)
+                {
+                    TextColor.WriteLine(ex.Message, ConsoleColor.Red);
+                }
+            }
+        }
+        static string TakeInputPassword()
+        {
+            while (true)
+            {
+                try
+                {
+                    string pass = Console.ReadLine();
+                    if (User.CheckPassword(pass))
+                        return pass;
+
+                }
+                catch (InvalidCredentialsException ex)
+                {
+                    TextColor.WriteLine(ex.Message, ConsoleColor.Red);
+                }
+            }
+        }
     }
-}
+    }
+
