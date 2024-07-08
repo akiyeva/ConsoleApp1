@@ -576,6 +576,7 @@ namespace ConsoleApp1
                 {
                     Console.WriteLine("Enter password:");
                     password = TakeInputPassword();
+                    break;
                 }
             }
             catch (Exception ex)
