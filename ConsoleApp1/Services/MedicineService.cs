@@ -6,13 +6,38 @@ namespace ConsoleProject.Services
     public class MedicineService
     {
         public MedicineService() { }
+
         public void AddMedicine(Medicine medicine)
         {
             Array.Resize(ref DB.medicines, DB.medicines.Length + 1);
             DB.medicines[DB.medicines.Length - 1] = medicine;
 
-            Console.WriteLine($"{medicine.Name} is added to database.");
+            Console.WriteLine($"{medicine.Name} is added.");
+
         }
+        public void AddMedicine(User user, int medicineId)
+        {
+            bool found = false;
+
+            foreach (var med in DB.medicines)
+            {
+                if (med.Id == medicineId)
+                {
+                    found = true;
+
+                    Array.Resize(ref user.Medicines, user.Medicines.Length + 1);
+                    user.Medicines[^1] = med;
+
+                    Console.WriteLine($"{med.Name} is added to {user.Fullname}.");
+                    break;
+                }
+            }
+            if (!found)
+            {
+                throw new NotFoundException("Error: ID not found");
+            }
+        }
+
 
         public Medicine[] GetAllMedicines()
         {
@@ -43,17 +68,6 @@ namespace ConsoleProject.Services
             throw new NotFoundException("Error: Name not found");
         }
 
-        public IEnumerable<Medicine> GetMedicineByCategory(int id)
-        {
-            foreach (var item in DB.medicines)
-            {
-                if (item.CategoryId == id)
-                {
-                    yield return item;
-                }
-            }
-            throw new NotFoundException("Error: Category not found");
-        }
 
         public void RemoveMedicine(int id)
         {
@@ -63,12 +77,12 @@ namespace ConsoleProject.Services
 
                 if (medicine.Id == id)
                 {
-                    for (int j = i; j < DB.medicines.Length; j++)
+                    for (int j = i; j < DB.medicines.Length - 1; j++)
                     {
                         DB.medicines[j] = DB.medicines[j + 1];
                     }
                     Array.Resize(ref DB.medicines, DB.medicines.Length - 1);
-                    Console.WriteLine($"{medicine.Name} is removed");
+                    Console.WriteLine($"{medicine.Name} medicine is removed");
                     return;
                 }
             }
@@ -90,7 +104,10 @@ namespace ConsoleProject.Services
 
             throw new NotFoundException("Error: invalid ID or medicine not found");
         }
+
+
     }
+
 
 
 }

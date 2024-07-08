@@ -10,7 +10,19 @@ namespace ConsoleProject.Services
             Array.Resize(ref DB.categories, DB.categories.Length + 1);
             DB.categories[DB.categories.Length - 1] = category;
 
-            Console.WriteLine($"{category.Name} is added to database.");
+            Console.WriteLine($"{category.Name} is added.");
+        }
+
+        public Medicine[] GetMedicinesByCategory(int id)
+        {
+            foreach (var cat in DB.categories)
+            {
+                if(cat.Id == id)
+                {
+                    return cat.Medicines;
+                }
+            }
+            throw new NullReferenceException();
         }
     }
 }
