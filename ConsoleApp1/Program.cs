@@ -208,7 +208,7 @@ namespace ConsoleApp1
 
                         int medicineCategoryId = int.Parse(Console.ReadLine());
 
-                        var medicinesPart = categoryService.GetMedicinesByCategory(medicineCategoryId, currentUser);
+                        var medicinesPart = categoryService.GetMedicinesByCategory(medicineCategoryId);
                         foreach (var med in medicinesPart)
                         {
                             Console.WriteLine(med);

@@ -27,24 +27,24 @@ namespace ConsoleProject.Services
             throw new NullReferenceException("No medicine found");
         }
 
-        public Medicine[] GetMedicinesByCategory(int id, User user)
-        {
-            List<Medicine> medicines = new List<Medicine>();
+        //public Medicine[] GetMedicinesByCategory(int id, User user)
+        //{
+        //    List<Medicine> medicines = new List<Medicine>();
 
-            foreach (var cat in user.Medicines)
-            {
-                if (cat.CategoryId == id)
-                {
-                    medicines.Add(cat);
-                }
-            }
+        //    foreach (var cat in user.Medicines)
+        //    {
+        //        if (cat.CategoryId == id)
+        //        {
+        //            medicines.Add(cat);
+        //        }
+        //    }
 
-            if (medicines.Count == 0)
-            {
-                throw new NullReferenceException("No medicines found in the specified category");
-            }
+        //    if (medicines.Count == 0)
+        //    {
+        //        throw new NullReferenceException("No medicines found in the specified category");
+        //    }
 
-            return medicines.ToArray();
+        //    return medicines.ToArray();
         }
         //public Medicine[] GetMedicinesByCategory(int id, User user)
         //{
